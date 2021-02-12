@@ -21,6 +21,10 @@ public class BlogPost {
     private String author;
     private String blogEntry;
 
+    public BlogPost(){
+
+    }
+
     public BlogPost(String title, String author, String blogEntry) {
         this.title = title;
         this.author = author;
