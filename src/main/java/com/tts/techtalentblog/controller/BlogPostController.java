@@ -5,48 +5,94 @@ import com.tts.techtalentblog.repo.BlogPostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BlogPostController {
 
     @Autowired
     private BlogPostRepository blogPostRepository;
-    private static List<BlogPost> post = new ArrayList<>();
+    private static List<BlogPost> posts = new ArrayList<>();
 
-    @GetMapping(value="/")
-    public String index(BlogPost blogPost, Model model){
+    @GetMapping(value = "/")
+    public String index(BlogPost blogPost, Model model) {
         // since we are utilizing thymeleaf
         // our output will be generated in a template
         // returning a reference to said template
         // will allow us to show the data that we want
+        posts.removeAll(posts);
+        for (BlogPost post : blogPostRepository.findAll()) {
+            posts.add(post);
+        }
         return "blogpost/index";
     }
 
     private BlogPost blogPost;
 
     @GetMapping(value = "/blogpost/CreatePost")
-    public String newBlog (BlogPost blogPost) {
+    public String newBlog(BlogPost blogPost) {
         return "blogpost/CreatePost";
     }
 
 
     @PostMapping(value = "/blogpost")
-    public String addNewBlogPost(BlogPost blogPost, Model model){
+    public String addNewBlogPost(BlogPost blogPost, Model model) {
         blogPostRepository.save(new BlogPost(
                 blogPost.getTitle(),
                 blogPost.getAuthor(),
                 blogPost.getBlogEntry()));
-                model.addAttribute("title", blogPost.getTitle());
-                model.addAttribute("author", blogPost.getAuthor());
-                model.addAttribute("blogEntry", blogPost.getBlogEntry());
+        model.addAttribute("title", blogPost.getTitle());
+        model.addAttribute("author", blogPost.getAuthor());
+        model.addAttribute("blogEntry", blogPost.getBlogEntry());
         return "blogpost/result";
 
     }
+
+    @RequestMapping(value = "/blogpost/{id}", method = RequestMethod.DELETE)
+    public String deletePostWithId(@PathVariable Long id, BlogPost blogPost) {
+        blogPostRepository.deleteById(id);
+        return "blogpost/index";
+    }
+
+    @RequestMapping(value = "/blogpost/{id}", method = RequestMethod.GET)
+    public String editPostWithId(@PathVariable Long id, BlogPost blogPost, Model model) {
+        Optional<BlogPost> post = blogPostRepository.findById(id);
+        if (post.isPresent()) {
+            BlogPost actualPost = post.get();
+            model.addAttribute("blogPost", actualPost);
+        }
+        return "blogpost/edit";
+    }
+
+    @RequestMapping(value = "blogpost/update/{id}")
+    public String updateExistingPost(@PathVariable Long id, BlogPost blogPost, Model model) {
+        Optional<BlogPost> post = blogPostRepository.findById(id);
+        if (post.isPresent()) {
+            BlogPost actualPost = post.get();
+            actualPost.setTitle(blogPost.getTitle());
+            actualPost.setAuthor(blogPost.getAuthor());
+            actualPost.setBlogEntry(blogPost.getBlogEntry());
+            blogPostRepository.save(actualPost);
+            model.addAttribute("blogPost", actualPost);
+        }
+        return "blogpost/result";
+    }
+
+    @RequestMapping(value = "blogpost/delete/{id}")
+    public String deletePostById(@PathVariable Long id, BlogPost blogPost) {
+        blogPostRepository.deleteById(id);
+        return "blogpost/delete";
+    }
+}
+
+
+
+
+
 
 //    @PostMapping("/")
 //    public String addNewBlogPost(BlogPost blogPost, Model model){
@@ -62,4 +108,4 @@ public class BlogPostController {
 //    }
 
 
-}
+

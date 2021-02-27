@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create a New Blog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Latest compiled and minified CSS -->
+    <link href="../../webjars/bootstrap/3.3.7/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+<body>
+
+<h1>Edit a Post</h1>
+
+<form action="#" th:action="@{~/blogpost/update/{id}(id=${blogPost.getId})}" th:object="${blogPost}" method="post">
+    <label for="blogTitle">Title:</label>
+    <input id="blogTitle" type="text" name="blogTitle" th:field="*{title}"/>
+
+    <label for="blogAuthor">Author:</label>
+    <input id="blogAuthor" type="text" name="blogAuthor" th:field="*{author}"/>
+
+    <label for="blogEntry">Blog Entry:</label>
+    <input id="blogEntry" type="text" name="blogEntry" th:field="*{blogEntry}" />
+
+    <button type="submit" class="btn btn-success">Submit Your Blog</button>
+    </form>
+
+<!--    <table>-->
+<!--        <tr>-->
+<!--            <td>Title</td>-->
+<!--            <td><input type="text" th:field="*{title}" /></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Author:</td>-->
+<!--            <td><input type="text" th:field="*{author}" /></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>Blog Entry:</td>-->
+<!--            <td><input type="text" th:field="*{blogEntry}" /></td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td><button type="submit">Submit Your Post</button></td>-->
+<!--        </tr>-->
+<!--    </table>-->
+
+
+<script src="webjars/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="webjars/jquery/1.9.1/jquery.min.js"></script>
+</body>
+</html>
