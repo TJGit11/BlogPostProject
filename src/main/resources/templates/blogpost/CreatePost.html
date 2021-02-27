@@ -9,7 +9,7 @@
 <div class="container">
     <div th:replace="fragments/navbar :: navbar"></div>
     <h1>Create a New Blog Post</h1>
-    <form action="#" th:action="@{/blogposts}" th:object="${blogPost}" method="post">
+    <form action="#" th:action="@{/blogpost}" th:object="${blogPost}" method="post">
 
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Blog Title..." th:field="*{title}"/>

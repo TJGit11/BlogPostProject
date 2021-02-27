@@ -27,12 +27,12 @@
                         <!-- Link to Show  -->
                         <div class="card-footer">
                             <!-- Link to Edit  -->
-                            <a href="#" th:href="@{blogposts/{id}(id=${blog.id})}">
+                            <a href="#" th:href="@{blogpost/{id}(id=${blog.id})}">
                                 <button class="btn btn-light">Edit Post</button>
                             </a>
 
                             <!-- Link to Delete  -->
-                            <form action="#" th:action="@{'/blogposts/{id}'(id=${blog.id})}" th:method="delete"
+                            <form action="#" th:action="@{'/blogpost/{id}'(id=${blog.id})}" th:method="delete"
                                   class="form-horizontal">
                                 <div class="form-group">
                                     <input type="hidden" name="_method" value="delete"/>
