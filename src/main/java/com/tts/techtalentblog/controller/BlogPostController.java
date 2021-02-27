@@ -82,9 +82,11 @@ public class BlogPostController {
         return "blogpost/result";
     }
 
-    @RequestMapping(value = "blogpost/delete/{id}")
-    public String deletePostById(@PathVariable Long id, BlogPost blogPost) {
-        blogPostRepository.deleteById(id);
+    @RequestMapping(value = "blogpost/delete/{id}", method = RequestMethod.DELETE)
+    public String deletePostWithId(@PathVariable Long id, BlogPost blogPost, Model model) {
+        service.deleteBlogPost(id);
+        posts = service.listAll();
+        model.addAttribute("posts", posts);
         return "blogpost/delete";
     }
 }
